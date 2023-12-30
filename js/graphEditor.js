@@ -49,7 +49,10 @@ class GraphEditor   {
         this.graph.removePoint(point)
         //set up the hovered/selected var back to null to prevent keeping the selected/hovered point 
         this.hovered = null;
-        this.selected = null;
+        //point only goes back to null when the selected point is targetted to be removed.
+        if (this.selected == point){
+            this.selected = null;
+        }
     }
 
    
