@@ -14,9 +14,19 @@ class GraphEditor   {
     #addEventListeners()    {
         //added an event listener inside of the canvas when the mouse is being pressed down
         this.canvas.addEventListener("mousedown", (evt) => {
+            if (evt.button == 2)    {//right click    
+                if(this.hovered)    {
+                    this.#removePoint(this.hovered);
+                    return;
+                }
+            }
+            if (evt.button == 0)    {//left click
+                if(this.hovered)    {
+                    this.selected = this.hovered;
+                }
+            }
             //it takes the x and y coordinate of the mouse pointer
             const mouse = new Point(evt.offsetX, evt.offsetY);
-            this.hovered = getNearestPoint(mouse, this.graph.points, 10);
             if (this.hovered)   {
                 this.selected = this.hovered;
                 return;
@@ -31,7 +41,18 @@ class GraphEditor   {
             const mouse = new Point(evt.offsetX, evt.offsetY);
             this.hovered = getNearestPoint(mouse, this.graph.points, 10);
         });
+        //prevent the menu to appear 
+        this.canvas.addEventListener("contextmenu", (evt) => evt.preventDefault());
     }
+    //private method to remove a point when right click
+    #removePoint(point)    {
+        this.graph.removePoint(point)
+        //set up the hovered/selected var back to null to prevent keeping the selected/hovered point 
+        this.hovered = null;
+        this.selected = null;
+    }
+
+   
     //Draw a new graph to the canvas
     display()   {
         this.graph.draw(this.ctx);
