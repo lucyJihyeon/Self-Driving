@@ -19,7 +19,10 @@ class GraphEditor {
         //right click
         if (this.hovered) {
           this.#removePoint(this.hovered);
-          return;
+        } 
+        //When right clicked, and the pointer not hovering over an existin point, all of the existing points' selected var goes back to null.
+        else {
+            this.selected = null;
         }
       }
       if (evt.button == 0) {
