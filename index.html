@@ -13,13 +13,11 @@
       <button onclick="addRandomPoint()">Add Point</button>
       <button onclick="addRandomSegment()">Add Segment</button>
       <button onclick="removeRandomSegment()">Remove Segment</button>
-
     </div>
     <script src="js/math/graph.js"></script>
     <script src="js/primitives/point.js"></script>
     <script src="js/primitives/segment.js"></script>
     <script>
-      
       //Generate a segment
       function addRandomSegment() {
         //created a random number within the existing points
@@ -60,8 +58,16 @@
       const s1 = new Segment(p1, p2);
       const s2 = new Segment(p1, p3);
       const s3 = new Segment(p1, p4);
-
       const graph = new Graph();
+
+      graph.tryAddPoint(p1);
+      graph.tryAddPoint(p2);
+      graph.tryAddPoint(p3);
+      graph.tryAddPoint(p4);
+
+      graph.tryAddSegment(s1);
+      graph.tryAddSegment(s2);
+      graph.tryAddSegment(s3);
       graph.draw(ctx);
     </script>
   </body>
