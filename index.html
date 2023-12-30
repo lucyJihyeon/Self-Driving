@@ -1,43 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
     <title>World Editor</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>World Editor</h1>
     <canvas id="myCanvas"></canvas>
     <div id="controls">
-        <button onclick="addRandomPoint()">Add Point</button>
+      <button onclick="addRandomPoint()">Add Point</button>
+      <button onclick="addRandomSegment()">Add Segment</button>
+      <button onclick="removeRandomSegment()">Remove Segment</button>
+
     </div>
     <script src="js/math/graph.js"></script>
     <script src="js/primitives/point.js"></script>
     <script src="js/primitives/segment.js"></script>
     <script>
-        //Generate a random point
-        function addRandomPoint()   {
-            const succeess = graph.tryAddPoint(
-                new Point(
-                    Math.random() * myCanvas.width,
-                    Math.random() * myCanvas.height
-                )
-            );
-            //refresh the canvas by restarting at 0,0
-            ctx.clearRect(0,0,myCanvas.width, myCanvas.height);
-            graph.draw(ctx);
-            console.log(success);
-        }
-
-        myCanvas.width = 600;
-        myCanvas.height = 600;
-
-        const ctx = myCanvas.getContext('2d');
-
-        const graph = new Graph();
+      
+      //Generate a segment
+      function addRandomSegment() {
+        //created a random number within the existing points
+        const index1 = Math.floor(Math.random() * graph.points.length);
+        const index2 = Math.floor(Math.random() * graph.points.length);
+        //Make sure we get two different points to create a segment
+        const success = graph.tryAddSegment(
+          //create a new segment using the randomly selected index numbers
+          new Segment(graph.points[index1], graph.points[index2])
+        );
+        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
         graph.draw(ctx);
-    </script>
+        console.log(success);
+      }
+      //Generate a random point
+      function addRandomPoint() {
+        const success = graph.tryAddPoint(
+          new Point(
+            Math.random() * myCanvas.width,
+            Math.random() * myCanvas.height
+          )
+        );
+        //refresh the canvas by restarting at 0,0
+        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+        graph.draw(ctx);
+        console.log(success);
+      }
 
-</body>
+      myCanvas.width = 600;
+      myCanvas.height = 600;
+
+      const ctx = myCanvas.getContext("2d");
+      const p1 = new Point(200, 200);
+      const p2 = new Point(300, 200);
+      const p3 = new Point(200, 300);
+      const p4 = new Point(400, 400);
+
+      const s1 = new Segment(p1, p2);
+      const s2 = new Segment(p1, p3);
+      const s3 = new Segment(p1, p4);
+
+      const graph = new Graph();
+      graph.draw(ctx);
+    </script>
+  </body>
 </html>

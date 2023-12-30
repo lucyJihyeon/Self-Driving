@@ -22,6 +22,22 @@ class Graph {
     }
     return false;
   }
+  //Function to add a segment 
+  addSegment(seg)   {
+    this.segments.push(seg);
+  }
+  //loop through the segments array to check if there is any existing segment 
+  containsSegment(seg)  {
+    return this.segments.find((s) => s.equals(seg));
+  }
+  //If there is not exisitng segment, add the segment.
+  tryAddSegment(seg)    {
+    if (!this.containsSegment(seg) && !seg.p1.equals(seg.p2)) {
+        this.addSegment(seg);
+        return true;
+    }
+    return false;
+  }
   //draw takes canvas context as a patameter as we will draw on the canvas
   draw(ctx) {
     //loop through all of the segments and draw them
