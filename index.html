@@ -18,6 +18,20 @@
     <script src="js/primitives/point.js"></script>
     <script src="js/primitives/segment.js"></script>
     <script>
+      //Function to remove a segment 
+      function removeRandomSegment()    {
+        //If there no segment, log the message
+        if (graph.segments.length == 0) {
+            console.log("There is no segment to be removed!")
+            return;
+        }
+        //Generate a random number within the lenghts of the segments
+        const index = Math.floor(Math.random() * graph.segments.length);
+        //remove the segment at the randomly picked index position
+        graph.removeSegment(graph.segments[index]);
+        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+        graph.draw(ctx);
+      }
       //Generate a segment
       function addRandomSegment() {
         //created a random number within the existing points

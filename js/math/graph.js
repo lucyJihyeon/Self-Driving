@@ -38,6 +38,10 @@ class Graph {
     }
     return false;
   }
+  //Function to remove a segment at a certain index by 1 
+  removeSegment(seg)    {
+    this.segments.splice(this.segments.indexOf(seg), 1);
+  }
   //draw takes canvas context as a patameter as we will draw on the canvas
   draw(ctx) {
     //loop through all of the segments and draw them
