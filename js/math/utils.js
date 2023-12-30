@@ -1,6 +1,6 @@
 //Function to get the nearest point
 //it takes three parameter loc(location), points, and threshold
-function getNearestPoint(loc, points, threshold = 10)   {
+function getNearestPoint(loc, points, threshold = Number.MAX_SAFE_INTEGER)   {
     //min distance that will be selected when hovered
     let minDist = Number.MAX_SAFE_INTEGER;
     let nearest = null;
