@@ -5,6 +5,10 @@ class Point {
         this.x = x;
         this.y = y;
     }
+    //check if the point position already exists. 
+    equals(point)   {
+        return this.x == point.x && this.y == point.y
+    }
     //Draw the point on to the canvas content with a style
     //Point will be appeared as a Circle
     draw(ctx, size = 18, color = "black")   {
