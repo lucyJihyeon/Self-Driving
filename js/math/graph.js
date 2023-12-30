@@ -42,6 +42,26 @@ class Graph {
   removeSegment(seg)    {
     this.segments.splice(this.segments.indexOf(seg), 1);
   }
+  //Function to loop through all of the segments in the canvas and check if the certain points are part of the segments
+  getSegmentsWithPoint(point)   {
+    const segs = [];
+    for (const seg of this.segments)    {
+        if(seg.includes(point)) {
+            //if the segment includes the point, push it to the array
+            segs.push(seg);
+        }
+    }
+    return segs;
+  }
+  //Function to remove a point at a certain index by 1
+  removePoint(point)    {
+    //get the segments that contains the point and remove the segments as well.
+    const segs = this.getSegmentsWithPoint(point);
+    for (const seg of segs) {
+        this.removeSegment(seg);
+    }
+    this.points.splice(this.points.indexOf(point), 1);
+  }
   //draw takes canvas context as a patameter as we will draw on the canvas
   draw(ctx) {
     //loop through all of the segments and draw them
