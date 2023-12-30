@@ -18,12 +18,11 @@ class GraphEditor {
     this.canvas.addEventListener("mousedown", (evt) => {
       if (evt.button == 2) {
         //right click
-        if (this.hovered) {
-          this.#removePoint(this.hovered);
-        }
-        //When right clicked, and the pointer not hovering over an existin point, all of the existing points' selected var goes back to null.
-        else {
-          this.selected = null;
+        //if right click while hovering over a point, unselect the point rather than removing the hovering point.
+        if (this.selected)  {
+            this.selected = null;
+        } else if (this.hovered)    {
+            this.#removePoint(this.hovered);
         }
       }
       if (evt.button == 0) {
@@ -86,8 +85,11 @@ class GraphEditor {
       this.hovered.draw(this.ctx, { fill: true });
     }
     if (this.selected) {
+      //if the mouse cursor hovers over an existing point, make display the segment between the selected point and the hovered point. 
+      const intent = this.hovered ? this.hovered : this.mouse;
       //Create a segment between the selected point and the mouse to visually represent where the segment will be.
-      new Segment(this.selected, this.mouse).draw(ctx);
+      //change it to dashed line (3px 3px)
+      new Segment(this.selected, intent).draw(ctx, { dash: [3, 3]});
       this.selected.draw(this.ctx, { outline: true });
     }
   }
