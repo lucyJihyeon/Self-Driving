@@ -6,6 +6,7 @@ class GraphEditor   {
         //reference to the canvas in the index.html
         this.ctx = this.canvas.getContext('2d');
         this.selected = null;
+        this.hovered = null;
         //Create a private event listener
         this.#addEventListeners();
     }
@@ -15,6 +16,11 @@ class GraphEditor   {
         this.canvas.addEventListener("mousedown", (evt) => {
             //it takes the x and y coordinate of the mouse pointer
             const mouse = new Point(evt.offsetX, evt.offsetY);
+            this.hovered = getNearestPoint(mouse, this.graph.points);
+            if (this.hovered)   {
+                this.selected = this.hovered;
+                return;
+            }
             //and add a point to the position
             this.graph.addPoint(mouse);
             this.selected = mouse;
