@@ -27,12 +27,22 @@ class GraphEditor {
         //it takes the x and y coordinate of the mouse pointer
         const mouse = new Point(evt.offsetX, evt.offsetY);
         if (this.hovered) {
+          //When select a point, create a segment between the previously hovered point.
+          if (this.selected)  {
+              //try adding a segment first to avoid duplicated segments.
+              this.graph.tryAddSegment(new Segment(this.selected, mouse));
+          }
           this.selected = this.hovered;
           this.dragging = true;
           return;
         }
         //and add a point to the position
         this.graph.addPoint(mouse);
+        //Also add a segment between the points 
+        if (this.selected)  {
+            //try adding a segment first to avoid duplicated segments.
+            this.graph.tryAddSegment(new Segment(this.selected, mouse));
+        }
         this.selected = mouse;
         this.hovered = mouse;
       }
