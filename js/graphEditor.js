@@ -5,6 +5,7 @@ class GraphEditor   {
         this.graph = graph;
         //reference to the canvas in the index.html
         this.ctx = this.canvas.getContext('2d');
+        this.selected = null;
         //Create a private event listener
         this.#addEventListeners();
     }
@@ -16,10 +17,14 @@ class GraphEditor   {
             const mouse = new Point(evt.offsetX, evt.offsetY);
             //and add a point to the position
             this.graph.addPoint(mouse);
+            this.selected = mouse;
         })
     }
     //Draw a new graph to the canvas
     display()   {
         this.graph.draw(this.ctx);
+        if (this.selected)  {
+            this.selected.draw(this.ctx, {outline: true});
+        }
     }
 }
