@@ -10,81 +10,13 @@
     <h1>World Editor</h1>
     <canvas id="myCanvas"></canvas>
     <div id="controls">
-      <button onclick="addRandomPoint()">Add Point</button>
-      <button onclick="addRandomSegment()">Add Segment</button>
-      <button onclick="removeRandomSegment()">Remove Segment</button>
-      <button onclick="removeRandomPoint()">Remove Point</button>
-      <button onclick="removeAll()">Remove All</button>
-
     </div>
+    <script src="js/graphEditor.js"></script>
     <script src="js/math/graph.js"></script>
     <script src="js/primitives/point.js"></script>
     <script src="js/primitives/segment.js"></script>
     <script>
-      function removeAll()  {
-        if ((graph.segments.length == 0) && (graph.points.length == 0)) {
-            console.log("there is no points and segments to be removed!")
-            return;
-        } 
-        graph.dispose();
-        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-        graph.draw(ctx);
-      }
-      //Function to remove a segment 
-      function removeRandomSegment()    {
-        //If there no segment, log the message
-        if (graph.segments.length == 0) {
-            console.log("There is no segment to be removed!")
-            return;
-        }
-        //Generate a random number within the lenghts of the segments
-        const index = Math.floor(Math.random() * graph.segments.length);
-        //remove the segment at the randomly picked index position
-        graph.removeSegment(graph.segments[index]);
-        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-        graph.draw(ctx);
-      }
-      function removeRandomPoint()    {
-        //If there no point, log the message
-        if (graph.points.length == 0) {
-            console.log("There is no point to be removed!")
-            return;
-        }
-        //Generate a random number within the lenghts of the segments
-        const index = Math.floor(Math.random() * graph.points.length);
-        //remove the point at the randomly picked index position
-        graph.removePoint(graph.points[index]);
-        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-        graph.draw(ctx);
-      }
-      //Generate a segment
-      function addRandomSegment() {
-        //created a random number within the existing points
-        const index1 = Math.floor(Math.random() * graph.points.length);
-        const index2 = Math.floor(Math.random() * graph.points.length);
-        //Make sure we get two different points to create a segment
-        const success = graph.tryAddSegment(
-          //create a new segment using the randomly selected index numbers
-          new Segment(graph.points[index1], graph.points[index2])
-        );
-        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-        graph.draw(ctx);
-        console.log(success);
-      }
-      //Generate a random point
-      function addRandomPoint() {
-        const success = graph.tryAddPoint(
-          new Point(
-            Math.random() * myCanvas.width,
-            Math.random() * myCanvas.height
-          )
-        );
-        //refresh the canvas by restarting at 0,0
-        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-        graph.draw(ctx);
-        console.log(success);
-      }
-
+      
       myCanvas.width = 600;
       myCanvas.height = 600;
 
@@ -97,17 +29,18 @@
       const s1 = new Segment(p1, p2);
       const s2 = new Segment(p1, p3);
       const s3 = new Segment(p1, p4);
-      const graph = new Graph();
+      const graph = new Graph([p1, p2, p3, p4], [s1, s2, s3]);
+      const graphEditor = new GraphEditor(myCanvas, graph);
 
-      graph.tryAddPoint(p1);
-      graph.tryAddPoint(p2);
-      graph.tryAddPoint(p3);
-      graph.tryAddPoint(p4);
-
-      graph.tryAddSegment(s1);
-      graph.tryAddSegment(s2);
-      graph.tryAddSegment(s3);
-      graph.draw(ctx);
+      animate();
+      //Function to use a mouse to add point/segment to the canvas 
+      function animate()    {
+        //regenerate everything everytime when the mouse clicks
+        ctx.clearRect(0,0, myCanvas.width, myCanvas.height);
+        graphEditor.display();
+        //Recursive call that the browser will recall the function 60 times / s
+        requestAnimationFrame(animate);
+      }
     </script>
   </body>
 </html>
