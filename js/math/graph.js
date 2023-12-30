@@ -62,6 +62,10 @@ class Graph {
     }
     this.points.splice(this.points.indexOf(point), 1);
   }
+  dispose() {
+    this.points.length = 0;
+    this.segments.length = 0;
+  }
   //draw takes canvas context as a patameter as we will draw on the canvas
   draw(ctx) {
     //loop through all of the segments and draw them

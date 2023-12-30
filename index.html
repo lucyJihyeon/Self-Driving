@@ -14,11 +14,22 @@
       <button onclick="addRandomSegment()">Add Segment</button>
       <button onclick="removeRandomSegment()">Remove Segment</button>
       <button onclick="removeRandomPoint()">Remove Point</button>
+      <button onclick="removeAll()">Remove All</button>
+
     </div>
     <script src="js/math/graph.js"></script>
     <script src="js/primitives/point.js"></script>
     <script src="js/primitives/segment.js"></script>
     <script>
+      function removeAll()  {
+        if ((graph.segments.length == 0) && (graph.points.length == 0)) {
+            console.log("there is no points and segments to be removed!")
+            return;
+        } 
+        graph.dispose();
+        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+        graph.draw(ctx);
+      }
       //Function to remove a segment 
       function removeRandomSegment()    {
         //If there no segment, log the message
