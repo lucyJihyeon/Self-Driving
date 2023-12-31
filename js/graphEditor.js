@@ -55,7 +55,7 @@ class GraphEditor {
   }
   #handlerMouseMove(evt)    {
     //it takes the x and y coordinate of the mouse pointer
-    this.mouse = this.viewport.getMouse(evt);
+    this.mouse = this.viewport.getMouse(evt, true);
     this.hovered = getNearestPoint(this.mouse, this.graph.points, 10 * this.viewport.zoom);
     //when the mouse is being pressed down at the point, they can drag.
     if (this.dragging == true) {

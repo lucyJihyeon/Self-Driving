@@ -21,11 +21,14 @@ class Viewport  {
     }
 
     //Get the coordinate of the mouse postion and apply the zoom scale.
-    getMouse(evt)   {
-        return new Point(
+    getMouse(evt, subtractDragOffset = false)   {
+        const p = new Point(
+            //subtract x and y of the center from the mouse x and y to translate the coordinates with respect to the center
             (evt.offsetX - this.center.x) * this.zoom - this.offset.x,
             (evt.offsetY - this.center.y) * this.zoom - this.offset.y
-        )
+        );
+        //when the mouse is dragging a point, subtract the offset from the current point 
+        return subtractDragOffset ? subtract(p, this.drag.offset) : p;
     }
     //Function to comopute the current offset by adding the initial offset to the offset change due to dragging
     getOffset() {
