@@ -21,3 +21,10 @@ function distance(p1, p2)   {
     //using a pythagorean theory
     return Math.hypot(p1.x - p2.x, p1.y - p2.y);
 }
+//function to add/subtract two points and make a new point recarding to it 
+function add(p1, p2)    {
+    return new Point(p1.x + p2.x, p1.y + p2.y);
+}
+function subtract(p1, p2)    {
+    return new Point(p1.x - p2.x, p1.y - p2.y);
+}
