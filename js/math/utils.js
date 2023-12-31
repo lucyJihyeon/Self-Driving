@@ -28,3 +28,7 @@ function add(p1, p2)    {
 function subtract(p1, p2)    {
     return new Point(p1.x - p2.x, p1.y - p2.y);
 }
+//Function to scale the coordinates of the point by a scaler value
+function scale(p, scaler)   {
+    return new Point(p.x * scaler, p.y * scaler);
+}

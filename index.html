@@ -42,6 +42,8 @@
         ctx.clearRect(0,0, myCanvas.width, myCanvas.height);
         //save the current state of the canvas context
         ctx.save();
+        //Keep the offset in the center.
+        ctx.translate(viewport.center.x, viewport.center.y)
         //scaling down the content by a factor of 1/viewport.zoom
         ctx.scale(1 / viewport.zoom, 1 / viewport.zoom);
         //Computing the current offset that changes dynalically as the mouse drags.
