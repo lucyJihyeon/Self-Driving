@@ -15,50 +15,53 @@ class GraphEditor {
 
   #addEventListeners() {
     //added an event listener inside of the canvas when the mouse is being pressed down
-    this.canvas.addEventListener("mousedown", (evt) => {
-      if (evt.button == 2) {
-        //right click
-        //if right click while hovering over a point, unselect the point rather than removing the hovering point.
-        if (this.selected)  {
-            this.selected = null;
-        } else if (this.hovered)    {
-            this.#removePoint(this.hovered);
-        }
-      }
-      if (evt.button == 0) {
-        //left click
-        
-        if (this.hovered) {
-          //When select a point, create a segment between the previously hovered point.
-          this.#select(this.hovered);
-          this.selected = this.hovered;
-          this.dragging = true;
-          return;
-        }
-        //and add a point to the position
-        this.graph.addPoint(this.mouse);
-        //Also add a segment between the points
-        this.#select(this.mouse);
-        this.selected = this.mouse;
-        this.hovered = this.mouse;
-      }
-    });
+    //creates a new function where 'this' inside #handleMouseDown refers to the GraphEditor's this
+    this.canvas.addEventListener("mousedown", this.#handleMouseDown.bind(this));
     //add an eventlistener when the mouse moves
-    this.canvas.addEventListener("mousemove", (evt) => {
-      //it takes the x and y coordinate of the mouse pointer
-      this.mouse = new Point(evt.offsetX, evt.offsetY);
-      this.hovered = getNearestPoint(this.mouse, this.graph.points, 10);
-      //when the mouse is being pressed down at the point, they can drag.
-      if (this.dragging == true) {
-        //mouse's x and y coordinates becomes the point's coordinated.
-        this.selected.x = this.mouse.x;
-        this.selected.y = this.mouse.y;
-      }
-    });
+    this.canvas.addEventListener("mousemove", this.#handlerMouseMove.bind(this));
     //prevent the menu to appear
     this.canvas.addEventListener("contextmenu", (evt) => evt.preventDefault());
     //When the mouse is not being pressed down, the point can't drag.
     this.canvas.addEventListener("mouseup", () => (this.dragging = false));
+  }
+  #handleMouseDown(evt) {
+    if (evt.button == 2) {
+      //right click
+      //if right click while hovering over a point, unselect the point rather than removing the hovering point.
+      if (this.selected) {
+        this.selected = null;
+      } else if (this.hovered) {
+        this.#removePoint(this.hovered);
+      }
+    }
+    if (evt.button == 0) {
+      //left click
+
+      if (this.hovered) {
+        //When select a point, create a segment between the previously hovered point.
+        this.#select(this.hovered);
+        this.selected = this.hovered;
+        this.dragging = true;
+        return;
+      }
+      //and add a point to the position
+      this.graph.addPoint(this.mouse);
+      //Also add a segment between the points
+      this.#select(this.mouse);
+      this.selected = this.mouse;
+      this.hovered = this.mouse;
+    }
+  }
+  #handlerMouseMove(evt)    {
+    //it takes the x and y coordinate of the mouse pointer
+    this.mouse = new Point(evt.offsetX, evt.offsetY);
+    this.hovered = getNearestPoint(this.mouse, this.graph.points, 10);
+    //when the mouse is being pressed down at the point, they can drag.
+    if (this.dragging == true) {
+      //mouse's x and y coordinates becomes the point's coordinated.
+      this.selected.x = this.mouse.x;
+      this.selected.y = this.mouse.y;
+    }
   }
   #select(point) {
     if (this.selected) {
@@ -85,11 +88,11 @@ class GraphEditor {
       this.hovered.draw(this.ctx, { fill: true });
     }
     if (this.selected) {
-      //if the mouse cursor hovers over an existing point, make display the segment between the selected point and the hovered point. 
+      //if the mouse cursor hovers over an existing point, make display the segment between the selected point and the hovered point.
       const intent = this.hovered ? this.hovered : this.mouse;
       //Create a segment between the selected point and the mouse to visually represent where the segment will be.
       //change it to dashed line (3px 3px)
-      new Segment(this.selected, intent).draw(ctx, { dash: [3, 3]});
+      new Segment(this.selected, intent).draw(ctx, { dash: [3, 3] });
       this.selected.draw(this.ctx, { outline: true });
     }
   }
