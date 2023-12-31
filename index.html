@@ -12,6 +12,7 @@
     <div id="controls">
     </div>
     <script src="js/graphEditor.js"></script>
+    <script src="js/viewport.js"></script>
     <script src="js/math/utils.js"></script>
     <script src="js/math/graph.js"></script>
     <script src="js/primitives/point.js"></script>
@@ -31,6 +32,7 @@
       const s2 = new Segment(p1, p3);
       const s3 = new Segment(p1, p4);
       const graph = new Graph([p1, p2, p3, p4], [s1, s2, s3]);
+      const viewport = new Viewport(myCanvas);
       const graphEditor = new GraphEditor(myCanvas, graph);
 
       animate();
@@ -38,7 +40,13 @@
       function animate()    {
         //regenerate everything everytime when the mouse clicks
         ctx.clearRect(0,0, myCanvas.width, myCanvas.height);
+        //save the current state of the canvas context
+        ctx.save();
+        //scaling down the content by a factor of 1/viewport.zoom
+        ctx.scale(1 / viewport.zoom, 1 / viewport.zoom);
         graphEditor.display();
+        //restore the saved state to start each frame with a clean slate 
+        ctx.restore();
         //Recursive call that the browser will recall the function 60 times / s
         requestAnimationFrame(animate);
       }
