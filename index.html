@@ -33,7 +33,7 @@
       const s3 = new Segment(p1, p4);
       const graph = new Graph([p1, p2, p3, p4], [s1, s2, s3]);
       const viewport = new Viewport(myCanvas);
-      const graphEditor = new GraphEditor(myCanvas, graph);
+      const graphEditor = new GraphEditor(viewport, graph);
 
       animate();
       //Function to use a mouse to add point/segment to the canvas 
@@ -44,6 +44,7 @@
         ctx.save();
         //scaling down the content by a factor of 1/viewport.zoom
         ctx.scale(1 / viewport.zoom, 1 / viewport.zoom);
+        ctx.translate(viewport.offset.x, viewport.offset.y);
         graphEditor.display();
         //restore the saved state to start each frame with a clean slate 
         ctx.restore();
