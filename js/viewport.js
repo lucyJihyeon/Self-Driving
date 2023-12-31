@@ -24,6 +24,10 @@ class Viewport  {
             evt.offsetY * this.zoom
         )
     }
+    //Function to comopute the current offset by adding the initial offset to the offset change due to dragging
+    getOffset() {
+        return add(this.offset, this.drag.offset);
+    }
     //private method to add event listener for mousewheel action
     #addEventListeners()    {
         this.canvas.addEventListener("mousewheel", this.#handleMouseWheel.bind(this));
