@@ -4,8 +4,11 @@ class Viewport  {
         this.canvas = canvas;
         this.ctx = canvas.getContext("2d");
         this.zoom = 1;
-        //offset of the view
-        this.offset = new Point(0, 0);
+        //Keep the offset in the center of the canvas
+        this.center = new Point(canvas.width / 2, canvas.height / 2);
+        //offset of the view 
+        //get a new point whose coordinates are the opposite of the this.center
+        this.offset = scale(this.center, -1);
         //object to manage dragging information
         this.drag = {
             start: new Point(0,0),
@@ -23,6 +26,10 @@ class Viewport  {
             evt.offsetX * this.zoom,
             evt.offsetY * this.zoom
         )
+    }
+    //Function to comopute the current offset by adding the initial offset to the offset change due to dragging
+    getOffset() {
+        return add(this.offset, this.drag.offset);
     }
     //private method to add event listener for mousewheel action
     #addEventListeners()    {

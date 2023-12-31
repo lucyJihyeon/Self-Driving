@@ -42,9 +42,13 @@
         ctx.clearRect(0,0, myCanvas.width, myCanvas.height);
         //save the current state of the canvas context
         ctx.save();
+        //Keep the offset in the center.
+        ctx.translate(viewport.center.x, viewport.center.y)
         //scaling down the content by a factor of 1/viewport.zoom
         ctx.scale(1 / viewport.zoom, 1 / viewport.zoom);
-        ctx.translate(viewport.offset.x, viewport.offset.y);
+        //Computing the current offset that changes dynalically as the mouse drags.
+        const offset = viewport.getOffset();
+        ctx.translate(offset.x, offset.y);
         graphEditor.display();
         //restore the saved state to start each frame with a clean slate 
         ctx.restore();
