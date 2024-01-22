@@ -6,6 +6,22 @@ class Graph {
     this.points = points;
     this.segments = segments;
   }
+
+  static load(info) {
+    //empty points and segments array
+    const points = [];
+    const segments =[];
+    //for every pointInfo in info.points
+    for (const pointInfo of info.points)  {
+      //convert the point coordinates into an utilizable points and segments
+      points.push(new Point(pointInfo.x, pointInfo.y));
+    }
+    for (const segInfo of info.segments)  {
+      segments.push(new Segment(segInfo.p1, segInfo.p2));
+    }
+    //then create a new graph with the new points and segments.
+    return new Graph(points, segments);
+  }
   //Functioin to generate a new random point
   addPoint(point) {
     this.points.push(point);

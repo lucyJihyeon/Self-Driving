@@ -81,6 +81,12 @@ class GraphEditor {
       this.selected = null;
     }
   }
+  //dispose graph and set the selected and hovered back to the default
+  dispose() {
+    this.graph.dispose();
+    this.selected = null;
+    this.hovered = null;
+  }
 
   //Draw a new graph to the canvas
   display() {
