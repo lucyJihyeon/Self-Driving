@@ -7,6 +7,7 @@ class Graph {
     this.segments = segments;
   }
 
+  //static function load the graph from the local storage
   static load(info) {
     //empty points and segments array
     const points = [];
@@ -17,11 +18,16 @@ class Graph {
       points.push(new Point(pointInfo.x, pointInfo.y));
     }
     for (const segInfo of info.segments)  {
-      segments.push(new Segment(segInfo.p1, segInfo.p2));
+      segments.push(new Segment(
+        //from the points array, find the one that matches to the points in the segment points 
+        points.find((p) => p.equals(segInfo.p1)),
+        points.find((p) => p.equals(segInfo.p2))
+        ));
     }
     //then create a new graph with the new points and segments.
     return new Graph(points, segments);
   }
+
   //Functioin to generate a new random point
   addPoint(point) {
     this.points.push(point);
