@@ -17,7 +17,7 @@ class Polygon {
         //close back to the itinial point
         ctx.closePath();
         ctx.fill();
-        ctx.stoke();
+        ctx.stroke();
 
     }
 }

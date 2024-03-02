@@ -32,3 +32,15 @@ function subtract(p1, p2)    {
 function scale(p, scaler)   {
     return new Point(p.x * scaler, p.y * scaler);
 }
+//Functino to translate the points that takes location, angle, and offset as parameters
+function translate(loc, angle, offset)  {
+    return new Point(
+        loc.x, + Math.cos(angle) * offset, 
+        loc.y + Math.sin(angle) * offset
+    );
+}
+//returns the arctangent of the quotient of its arguments, as a numeric value between PI and -PI radians.
+//represents the counterclockwise angle in radians between the positive X axis and the point (x, y).
+function angle(p)   {
+    return Math.atan2(p.y, p.x);
+}
