@@ -44,7 +44,7 @@
         viewport.reset();
         graphEditor.display();
         //Envelope class to create a envelope around segments
-        new Envelope(graph.segments[0], 80).draw(ctx);
+        new Envelope(graph.segments[0], 200, 20).draw(ctx);
         //Recursive call that the browser will recall the function 60 times / s
         requestAnimationFrame(animate);
       }
