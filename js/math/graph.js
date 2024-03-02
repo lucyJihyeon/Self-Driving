@@ -7,21 +7,19 @@ class Graph {
     this.segments = segments;
   }
 
+  //static function load the graph from the local storage
   static load(info) {
-    //empty points and segments array
-    const points = [];
-    const segments =[];
-    //for every pointInfo in info.points
-    for (const pointInfo of info.points)  {
-      //convert the point coordinates into an utilizable points and segments
-      points.push(new Point(pointInfo.x, pointInfo.y));
-    }
-    for (const segInfo of info.segments)  {
-      segments.push(new Segment(segInfo.p1, segInfo.p2));
-    }
+    //loop through each of the points and segments in the info object and convert them into a new point and segment
+    const points = info.points.map((i) => new Point(i.x, i.y));
+    const segments = info.segments.map((i) => new Segment(
+      //from the points array, find the one that matches to the points in the segment points 
+      points.find((p) => p.equals(i.p1)),
+      points.find((p) => p.equals(i.p2))
+    ))
     //then create a new graph with the new points and segments.
     return new Graph(points, segments);
   }
+
   //Functioin to generate a new random point
   addPoint(point) {
     this.points.push(point);

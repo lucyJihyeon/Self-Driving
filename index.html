@@ -19,6 +19,9 @@
     <script src="js/math/graph.js"></script>
     <script src="js/primitives/point.js"></script>
     <script src="js/primitives/segment.js"></script>
+    <script src="js/primitives/polygon.js"></script>
+    <script src="js/primitives/envelope.js"></script>
+
     <script>
       
       myCanvas.width = 600;
@@ -40,6 +43,8 @@
       function animate()    {
         viewport.reset();
         graphEditor.display();
+        //Envelope class to create a envelope around segments
+        new Envelope(graph.segments[0], 200, 20).draw(ctx);
         //Recursive call that the browser will recall the function 60 times / s
         requestAnimationFrame(animate);
       }
