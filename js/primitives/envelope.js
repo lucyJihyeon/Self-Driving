@@ -15,10 +15,15 @@ class Envelope {
         const alpha_cw = alpha + Math.PI / 2;
         const alpha_ccw = alpha - Math.PI / 2;
         const points = [];
-        const step = Math.PI /3;
+        //controlling the angle by adding the points step by step 
+        const step = Math.PI / 10;
          //getting the points all around the point1 and point2 starting from alpha_ccw angle to alpha_cw angle
         for (let i = alpha_ccw; i <= alpha_cw; i += step)    {
             points.push(translate(p1, i, radius));
+        }
+        for (let i = alpha_ccw; i <= alpha_cw; i += step)    {
+            //adding 180 degree to the angle b/c point2 is apposite of the point 1 
+            points.push(translate(p2, Math.PI + i, radius));
         }
         return new Polygon(points);
     }
