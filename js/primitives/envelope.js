@@ -14,13 +14,13 @@ class Envelope {
         //get the offset 90 degrees (clockwise, counterclockwise)
         const alpha_cw = alpha + Math.PI / 2;
         const alpha_ccw = alpha - Math.PI / 2;
-        //getting the points all around the point1 and point2 
-        const p1_ccw = translate(p1, alpha_ccw, radius);
-        const p2_ccw = translate(p2, alpha_ccw, radius);
-        const p2_cw = translate(p2, alpha_cw, radius);
-        const p1_cw = translate(p1, alpha_cw, radius);
-        console.log();
-        return new Polygon([p1_ccw, p2_ccw, p2_cw, p1_cw]);
+        const points = [];
+        const step = Math.PI /3;
+         //getting the points all around the point1 and point2 starting from alpha_ccw angle to alpha_cw angle
+        for (let i = alpha_ccw; i <= alpha_cw; i += step)    {
+            points.push(translate(p1, i, radius));
+        }
+        return new Polygon(points);
     }
     draw(ctx)   {
         this.poly.draw(ctx);
