@@ -35,7 +35,7 @@ function scale(p, scaler)   {
 //Functino to translate the points that takes location, angle, and offset as parameters
 function translate(loc, angle, offset)  {
     return new Point(
-        loc.x, + Math.cos(angle) * offset, 
+        loc.x + Math.cos(angle) * offset, 
         loc.y + Math.sin(angle) * offset
     );
 }
