@@ -13,6 +13,7 @@
       <button onclick="dispose()">🗑️</button>
       <button onclick="save()">💾</button>
     </div>
+    <script src="js/world.js"></script>
     <script src="js/graphEditor.js"></script>
     <script src="js/viewport.js"></script>
     <script src="js/math/utils.js"></script>
@@ -35,6 +36,8 @@
       const graph = graphInfo
         ? Graph.load(graphInfo)
         : new Graph();
+      //instantiate a new world 
+      const world = new World(graph);
       const viewport = new Viewport(myCanvas);
       const graphEditor = new GraphEditor(viewport, graph);
 
@@ -42,9 +45,9 @@
       //Function to use a mouse to add point/segment to the canvas 
       function animate()    {
         viewport.reset();
+        world.generate();
+        world.draw(ctx);
         graphEditor.display();
-        //Envelope class to create a envelope around segments
-        new Envelope(graph.segments[0], 200, 20).draw(ctx);
         //Recursive call that the browser will recall the function 60 times / s
         requestAnimationFrame(animate);
       }
