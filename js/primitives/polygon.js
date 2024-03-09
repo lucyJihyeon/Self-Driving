@@ -12,6 +12,47 @@ class Polygon {
       );
     }
   }
+
+//static function determine which segments to keep and which to distroy 
+static union(polys) {
+    Polygon.multiBreak(polys);
+    const keptSegments = [];
+    //loop through all of the polys 
+    for ( let i =0; i < polys.length; i++)  {
+        //and their segments that forms the poly
+        for (const seg of polys[i].segments)    {
+            let keep = true;
+            //loop through the poly 
+            for ( let j = 0; j < polys.length; j++) {
+                //except for when the seg is the one that forms the poly
+                if (i != j) {
+                    //check if the polygon contains the segment.
+                    if (polys[j].containsSegment(seg))  {
+                        //if it does, don't keep it 
+                        keep = false;
+                        break;
+                    }
+                }
+            }
+            if (keep)   {
+                keptSegments.push(seg);
+            }
+        }
+    }
+    return keptSegments;
+}
+
+
+  //static function to break multiple polygons when they intersect
+  static multiBreak(polys) {
+    // i = current poly j = the very nest poly
+    for (let i = 0; i < polys.length - 1; i++) {
+      for (let j = i + 1; j < polys.length; j++) {
+        Polygon.break(polys[i], polys[j]);
+      }
+    }
+  }
+
   //static function to find out the intersection between two polygons around segments
   static break(poly1, poly2) {
     const segs1 = poly1.segments;
@@ -31,18 +72,38 @@ class Polygon {
           //keeping the refenrece of the point2 that makes the intersection
           let aux = segs1[i].p2;
           segs1[i].p2 = point;
-          //from the intersecting point, add a new segment 
-          segs1.splice( i + 1, 0, new Segment(point, aux));
+          //from the intersecting point, add a new segment
+          segs1.splice(i + 1, 0, new Segment(point, aux));
           aux = segs2[j].p2;
           segs2[j].p2 = point;
-          segs2.splice( j + 1, 0, new Segment(point, aux));
+          segs2.splice(j + 1, 0, new Segment(point, aux));
         }
       }
     }
   }
+  
+  containsSegment(seg)  {
+    const midpoint = average(seg.p1, seg.p2);
+    return this.containsPoint(midpoint);
+  }
+
+  containsPoint(point)  {
+    const outerPoint = new Point(-1000, -1000);
+    let intersectionCount =0;
+    for (const seg of this.segments)    {
+        const int = getIntersection(outerPoint, point, seg.p1, seg.p2);
+        if (int)    {
+            intersectionCount++;
+        }
+    }
+    //odd number = going outside 
+    return intersectionCount % 2 == 1;
+  }
+
+
   drawSegments(ctx) {
-    for ( const seg of this.segments)   {
-        seg.draw(ctx, { color: getRandomColor(), width : 5})
+    for (const seg of this.segments) {
+      seg.draw(ctx, { color: getRandomColor(), width: 5 });
     }
   }
 

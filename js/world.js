@@ -5,6 +5,7 @@ class World {
         this.roadRoundness = roadRoundness;
 
         this.envelopes = [];
+        this.roadBorders = [];
 
         this.generate();
     }
@@ -17,16 +18,20 @@ class World {
                 new Envelope(seg, this.roadWidth, this.roadRoundness)
             );
         }
-        //attribute to figure out the intersections of the two segments and break them. 
-        this.intersections = Polygon.break(
-            this.envelopes[0].poly,
-            this.envelopes[1].poly
-        )
+
+        //determine which segments to keep when the polygons(envelopes) intersects by using union static method and store them in the roadBoarder array.
+        this.roadBorders = Polygon.union(this.envelopes.map((e) => e.poly));
     }
 
     draw(ctx)   {
         for (const env of this.envelopes)   {
-            env.draw(ctx);
+            env.draw(ctx, { fill: "#BBB", stroke: "#BBB", lineWidth: 15});
+        }
+        for (const seg of this.graph.segments)  {
+            seg.draw(ctx, { color: "white", width: 4, dash: [10,10] })
+        }
+        for ( const seg of this.roadBorders)    {
+            seg.draw(ctx, { color: "white",width: 4 });
         }
         
     }
