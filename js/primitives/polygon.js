@@ -12,6 +12,37 @@ class Polygon {
       );
     }
   }
+
+//static function determine which segments to keep and which to distroy 
+static union(polys) {
+    Polygon.multiBreak(polys);
+    const keptSegments = [];
+    //loop through all of the polys 
+    for ( let i =0; i < polys.length; i++)  {
+        //and their segments that forms the poly
+        for (const seg of polys[i].segments)    {
+            let keep = true;
+            //loop through the poly 
+            for ( let j = 0; j < polys.length; j++) {
+                //except for when the seg is the one that forms the poly
+                if (i != j) {
+                    //check if the polygon contains the segment.
+                    if (polys[j].containsSegment(seg))  {
+                        //if it does, don't keep it 
+                        keep = false;
+                        break;
+                    }
+                }
+            }
+            if (keep)   {
+                keptSegments.push(seg);
+            }
+        }
+    }
+    return keptSegments;
+}
+
+
   //static function to break multiple polygons when they intersect
   static multiBreak(polys) {
     // i = current poly j = the very nest poly
@@ -50,6 +81,26 @@ class Polygon {
       }
     }
   }
+  
+  containsSegment(seg)  {
+    const midpoint = average(seg.p1, seg.p2);
+    return this.containsPoint(midpoint);
+  }
+
+  containsPoint(point)  {
+    const outerPoint = new Point(-1000, -1000);
+    let intersectionCount =0;
+    for (const seg of this.segments)    {
+        const int = getIntersection(outerPoint, point, seg.p1, seg.p2);
+        if (int)    {
+            intersectionCount++;
+        }
+    }
+    //odd number = going outside 
+    return intersectionCount % 2 == 1;
+  }
+
+
   drawSegments(ctx) {
     for (const seg of this.segments) {
       seg.draw(ctx, { color: getRandomColor(), width: 5 });
