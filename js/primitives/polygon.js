@@ -17,23 +17,15 @@ class Polygon {
     const segs1 = poly1.segments;
     const segs2 = poly2.segments;
     const intersections = [];
-    console.log(segs1);
     //for each of the segment in the poly1, check if it has any intersection with the segments in poly2
     for (let i = 0; i < segs1.length; i++) {
       for (let j = 0; j < segs2.length; j++) {
-        console.log(segs1[i].p1, segs1[i].p2, segs2[j].p1, segs2[j].p2);
-        console.log("p1", segs1[i].p1);
-        console.log("p2", segs1[i].p2);
-        console.log("p3", segs2[j].p1);
-        console.log("p4", segs2[j].p2);
-
         const int = getIntersection(
           segs1[i].p1,
           segs1[i].p2,
           segs2[j].p1,
           segs2[j].p2
         );
-
         //offset = 1 or 0 means that the intersection doesn't meet at the exact point
         if (int && int.offset != 1 && int.offset != 0) {
           const point = new Point(int.x, int.y);
