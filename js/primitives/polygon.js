@@ -12,6 +12,16 @@ class Polygon {
       );
     }
   }
+  //static function to break multiple polygons when they intersect
+  static multiBreak(polys) {
+    // i = current poly j = the very nest poly
+    for (let i = 0; i < polys.length - 1; i++) {
+      for (let j = i + 1; j < polys.length; j++) {
+        Polygon.break(polys[i], polys[j]);
+      }
+    }
+  }
+
   //static function to find out the intersection between two polygons around segments
   static break(poly1, poly2) {
     const segs1 = poly1.segments;
@@ -31,18 +41,18 @@ class Polygon {
           //keeping the refenrece of the point2 that makes the intersection
           let aux = segs1[i].p2;
           segs1[i].p2 = point;
-          //from the intersecting point, add a new segment 
-          segs1.splice( i + 1, 0, new Segment(point, aux));
+          //from the intersecting point, add a new segment
+          segs1.splice(i + 1, 0, new Segment(point, aux));
           aux = segs2[j].p2;
           segs2[j].p2 = point;
-          segs2.splice( j + 1, 0, new Segment(point, aux));
+          segs2.splice(j + 1, 0, new Segment(point, aux));
         }
       }
     }
   }
   drawSegments(ctx) {
-    for ( const seg of this.segments)   {
-        seg.draw(ctx, { color: getRandomColor(), width : 5})
+    for (const seg of this.segments) {
+      seg.draw(ctx, { color: getRandomColor(), width: 5 });
     }
   }
 

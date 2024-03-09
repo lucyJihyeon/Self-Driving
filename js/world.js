@@ -17,11 +17,9 @@ class World {
                 new Envelope(seg, this.roadWidth, this.roadRoundness)
             );
         }
+
         //attribute to figure out the intersections of the two segments and break them. 
-        this.intersections = Polygon.break(
-            this.envelopes[0].poly,
-            this.envelopes[1].poly
-        )
+        Polygon.multiBreak(this.envelopes.map((e) => e.poly));
     }
 
     draw(ctx)   {
