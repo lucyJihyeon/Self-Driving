@@ -44,3 +44,37 @@ function translate(loc, angle, offset)  {
 function angle(p)   {
     return Math.atan2(p.y, p.x);
 }
+
+//function to get an intersection point between points A,B,C, and D
+function getIntersection(A,B,C,D)   {
+    // value t = interpolation parameter that determines the position of the interpolated value within [0,1] 
+    // value u = Second line segment's interpolation parameter that identify where along this second line segment the intersection point falls.
+    //t top = t denominator bottom = t and u numerator (they have the same numerator)
+    // bottom = checking for parallel lines; if bottom is 0, the line segments are parallel (or collinear) and do not intersect in a single point.
+    const tTop = (D.x - C.x) * (A.y - C.y) - (D.y - C.y) * (A.x - C.x);
+    const uTop = (C.y - A.y) * (A.x - B.x) - (C.x - A.x) * (A.y - B.y);
+    const bottom = (D.y - C.y) * (B.x - A.x) - (D.x - C.x) * (B.y - A.y);
+
+    if (bottom != 0)    {
+        const t = tTop / bottom;
+        const u = uTop / bottom;
+        if (t >= 0 && t <= 1 && u >= 0 && u <= 1)   {
+            return {
+                x: lerp(A.x, B.x, t),
+                y: lerp(A.y, B.y, t),
+                offset: t,
+            }
+        }
+    }
+    return null;
+}
+//linear interpolation 
+function lerp(a, b, t)  {
+    return a + (b - a) * t;
+}
+
+//function to get generate a random color 
+function getRandomColor()   {
+    const hue = 290 + Math.random() * 260;
+    return "hsl(" + hue + ", 100%, 60%";
+}
