@@ -16,7 +16,6 @@ class Polygon {
   static break(poly1, poly2) {
     const segs1 = poly1.segments;
     const segs2 = poly2.segments;
-    const intersections = [];
     //for each of the segment in the poly1, check if it has any intersection with the segments in poly2
     for (let i = 0; i < segs1.length; i++) {
       for (let j = 0; j < segs2.length; j++) {
@@ -29,11 +28,22 @@ class Polygon {
         //offset = 1 or 0 means that the intersection doesn't meet at the exact point
         if (int && int.offset != 1 && int.offset != 0) {
           const point = new Point(int.x, int.y);
-          intersections.push(point);
+          //keeping the refenrece of the point2 that makes the intersection
+          let aux = segs1[i].p2;
+          segs1[i].p2 = point;
+          //from the intersecting point, add a new segment 
+          segs1.splice( i + 1, 0, new Segment(point, aux));
+          aux = segs2[j].p2;
+          segs2[j].p2 = point;
+          segs2.splice( j + 1, 0, new Segment(point, aux));
         }
       }
     }
-    return intersections;
+  }
+  drawSegments(ctx) {
+    for ( const seg of this.segments)   {
+        seg.draw(ctx, { color: getRandomColor(), width : 5})
+    }
   }
 
   //draw the road with some defualt style values
