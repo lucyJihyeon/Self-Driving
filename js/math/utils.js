@@ -36,6 +36,14 @@ function subtract(p1, p2)    {
 function scale(p, scaler)   {
     return new Point(p.x * scaler, p.y * scaler);
 }
+//function to normalize a point by reversing a point with its magnitude 
+function normalize(p)   {
+    return scale(p, 1 / magnitude(p));
+}
+//function to calculate the magnitude of a point 
+function magnitude(p)   {
+    return Math.hypot(p.x,p.y);
+}
 //Functino to translate the points that takes location, angle, and offset as parameters
 function translate(loc, angle, offset)  {
     return new Point(

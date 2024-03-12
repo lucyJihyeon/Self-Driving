@@ -51,7 +51,32 @@ class World {
                 i --;
             }
         }
-        return guides;
+
+        //if the guide's segments is too long, break it with a spacing between them to establish more buildings 
+        const supports = [];
+        for (let seg of guides) {
+            const len = seg.length() + this.spacing;
+            //building length + space between buildings 
+            const buildingCount = Math.floor( len / (this.buildingMinLength + this.spacing));
+            //building length = length of the (segment / building count) - space between buildings 
+            const buildingLength = len / buildingCount - this.spacing
+
+            const dir = seg.directionVector();
+            
+            let q1 = seg.p1;
+            let q2 = add(q1, scale(dir, buildingLength));
+            supports.push(new Segment(q1, q2));
+            //creating a segments that will measure the space between buildings in a road 
+            //by adding a segment between two points without its magnitude
+            for ( let i = 2; i <= buildingCount; i++)   {
+                q1 = add(q2, scale(dir, this.spacing));
+                q2 = add(q1, scale(dir, buildingLength));
+                supports.push(new Segment(q1, q2));
+            }
+        }
+
+
+        return supports;
     }
     draw(ctx)   {
         for (const env of this.envelopes)   {
