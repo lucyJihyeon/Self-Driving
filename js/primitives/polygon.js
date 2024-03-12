@@ -82,6 +82,18 @@ static union(polys) {
     }
   }
   
+  //method to check if the segments in the polygon intersect 
+  intersectPoly(poly) {
+    for (let s1 of this.segments) {
+      for ( let s2 of poly.segments)  {
+        if (getIntersection(s1.p1, s1.p2, s2.p1, s2.p2)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   containsSegment(seg)  {
     const midpoint = average(seg.p1, seg.p2);
     return this.containsPoint(midpoint);
