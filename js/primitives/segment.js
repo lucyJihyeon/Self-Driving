@@ -6,6 +6,14 @@ class Segment {
         this.p1 = p1;
         this.p2 = p2;
     }
+    //check the distance between point 1 and point2
+    length()    {
+        return distance(this.p1, this.p2);
+    }
+    //function to calculate the direction of a vector
+    directionVector()   {
+        return normalize(subtract(this.p2, this.p1));
+    }
     //check if the points for segment already has their own segment 
     equals(seg) {
         return this.includes(seg.p1) && this.includes(seg.p2);
