@@ -71,6 +71,17 @@ class World {
                     break;
                 }
             }
+
+            //if statement to decide whether or not keep the tree by measuring the distance between the tree and the generated point
+            if (keep)   {
+                for ( const tree of trees)  {
+                    //this prevents having trees overlaps 
+                    if (distance(tree,p) < this.treeSize){
+                        keep = false;
+                        break;
+                    }
+                }
+            }
             if (keep)   {
             trees.push(p);
             }
