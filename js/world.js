@@ -46,6 +46,13 @@ class World {
         const top = Math.min(...points.map((p) => p.y))
         const bottom = Math.max(...points.map((p) => p.y))
 
+        //illgalpolys = when the polygon that forms the building and the road 
+        const illegalPolys = [
+            ...this.buildings, 
+            ...this.envelopes.map((e) => e.poly)
+        ];
+
+
         const trees = [];
         while (trees.length < count) {
             //trees = point 
@@ -54,7 +61,18 @@ class World {
                 lerp(left, right, Math.random()),
                 lerp(bottom, top, Math.random())
             );
+            let keep = true;
+            //loop through the each polygon in the illegalpolys, and if it contains the generated p where the tree is going to be, 
+            //don't keep it 
+            for (const poly of illegalPolys)    {
+                if (poly.containsPoint(p))  {
+                    keep = false;
+                    break;
+                }
+            }
+            if (keep)   {
             trees.push(p);
+            }
         }
         return trees;
     }
