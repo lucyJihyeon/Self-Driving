@@ -19,7 +19,10 @@ class Graph {
     //then create a new graph with the new points and segments.
     return new Graph(points, segments);
   }
-
+  //hash method to hash this graph at the moment 
+  hash()  {
+    return JSON.stringify(this);
+  }
   //Functioin to generate a new random point
   addPoint(point) {
     this.points.push(point);

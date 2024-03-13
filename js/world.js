@@ -10,6 +10,7 @@ class World {
         this.envelopes = [];
         this.roadBorders = [];
         this.buildings = [];
+        this.trees = [];
 
         this.generate();
     }
@@ -27,6 +28,35 @@ class World {
         this.roadBorders = Polygon.union(this.envelopes.map((e) => e.poly));
         //generate building around the road
         this.buildings = this.#generateBuildings();
+        this.trees = this.#generateTrees();
+    }
+    //private method to create trees 
+    #generateTrees(count = 10)  {
+        //betcause tress will be around the road or building, gather their points and store them in a points array 
+        const points = [
+            //flatten nested arrays into a single-level array
+            ...this.roadBorders.map((s) => [s.p1,s.p2]).flat(),
+            ...this.buildings.map((b)=> b.points).flat()
+        ]
+
+        //left(lower value) and right(higher value) = x-axis 
+        //top(lower value in 2D canvas) and buttom(higher value) = y-axis 
+        const left = Math.min(...points.map((p) => p.x));
+        const right = Math.max(...points.map((p) => p.x))
+        const top = Math.min(...points.map((p) => p.y))
+        const bottom = Math.max(...points.map((p) => p.y))
+
+        const trees = [];
+        while (trees.length < count) {
+            //trees = point 
+            const p = new Point(
+                //randomize the tree by using lerp 
+                lerp(left, right, Math.random()),
+                lerp(bottom, top, Math.random())
+            );
+            trees.push(p);
+        }
+        return trees;
     }
 
     //buildings are envelope form from road, spacig * 2 away from road. 
@@ -105,6 +135,9 @@ class World {
         }
         for ( const seg of this.roadBorders)    {
             seg.draw(ctx, { color: "white",width: 4 });
+        }
+        for (const tree of this.trees)  {
+            tree.draw(ctx);
         }
         for ( const bld of this.buildings)   {
             bld.draw(ctx);
