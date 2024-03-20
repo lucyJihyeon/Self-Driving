@@ -81,7 +81,12 @@ static union(polys) {
       }
     }
   }
-  
+  //function to calculate min value of the distance between point and segment 
+  distanceToPoint(point)  {
+    return Math.min(...this.segments.map((s) => s.distanceToPoint(point)));
+  }
+
+
   //method to check if the segments in the polygon intersect 
   intersectPoly(poly) {
     for (let s1 of this.segments) {
