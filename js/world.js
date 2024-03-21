@@ -170,12 +170,14 @@ class World {
       bases.push(new Envelope(seg, this.buildingWidth).poly);
     }
 
+    const eps = 0.001;
     //for each of the bases building polygons
     //check if theh polygon intersect with the next ( i+1 ) building
     for (let i = 0; i < bases.length - 1; i++) {
       for (let j = i + 1; j < bases.length; j++) {
         //if they do intersect, remove the building
-        if (bases[i].intersectPoly(bases[j])) {
+        //also, if the building is too close to the next building, remove the building 
+        if (bases[i].intersectPoly(bases[j]) || bases[i].distanceToPoly(bases[j]) < this.spacing - eps) {
           bases.splice(j, 1);
           j--;
         }
