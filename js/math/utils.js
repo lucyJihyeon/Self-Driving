@@ -48,10 +48,12 @@ function normalize(p) {
 function magnitude(p) {
   return Math.hypot(p.x, p.y);
 }
-//Functino to translate the points that takes location, angle, and offset as parameters
+//Functino to calculate the new position of a point after applying a translation (movement) in a specific direction and distance.
 function translate(loc, angle, offset) {
   return new Point(
+    //angle: The angle at which the translation will occur, measured in radians from the positive x-axis using cosine.
     loc.x + Math.cos(angle) * offset,
+    //offset: The distance by which the point will be translated in the specified direction.
     loc.y + Math.sin(angle) * offset
   );
 }
@@ -90,6 +92,10 @@ function lerp(a, b, t) {
   return a + (b - a) * t;
 }
 
+//linear interpolation in 2D where the point A represents the top of the cynlinder and B represents the bottom of the cynlinder 
+function lerp2D(A,B,t)  {
+    return new Point(lerp(A.x,B.x, t), lerp(A.y, B.y, t));
+}
 //function to get generate a random color
 function getRandomColor() {
   const hue = 290 + Math.random() * 260;
