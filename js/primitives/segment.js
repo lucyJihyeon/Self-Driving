@@ -41,14 +41,14 @@ class Segment {
     //vector "a" from the starting point of the line segment to the point
     const a = subtract(point, this.p1);
     //vector "b" from the ending point of the line segment to the point
-    const b = subtract(this.p2, this.p2);
+    const b = subtract(this.p2, this.p1);
     //normalize vector "b"
     const normB = normalize(b);
     //calculate the sacler by using dot product 
     const scaler = dot(a, normB);
     //calculate the projection using scale method and offset(t value) by dive the scaler by the magnitude of the vector "b"
     const proj = {
-      point: addEventListener(this.p1, scale(normB, scaler)),
+      point: add(this.p1, scale(normB, scaler)),
       offset: scaler / magnitude(b),
     };
     return proj;

@@ -93,5 +93,5 @@ function lerp(a, b, t) {
 //function to get generate a random color
 function getRandomColor() {
   const hue = 290 + Math.random() * 260;
-  return "hsl(" + hue + ", 100%, 60%";
+  return "hsl(" + hue + ", 100%, 60%)";
 }
