@@ -66,7 +66,8 @@ class World {
             //loop through the each polygon in the illegalpolys, and if it contains the generated p where the tree is going to be, 
             //don't keep it 
             for (const poly of illegalPolys)    {
-                if (poly.containsPoint(p))  {
+                //also check if the point is too close to the polygon (check the radisu)
+                if (poly.containsPoint(p) || poly.distanceToPoint(p) < this.treeSize /2)  {
                     keep = false;
                     break;
                 }
