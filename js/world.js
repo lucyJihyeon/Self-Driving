@@ -45,7 +45,7 @@ class World {
     const points = [
       //flatten nested arrays into a single-level array
       ...this.roadBorders.map((s) => [s.p1, s.p2]).flat(),
-      ...this.buildings.map((b) => b.points).flat(),
+      ...this.buildings.map((b) => b.base.points).flat(),
     ];
 
     //left(lower value) and right(higher value) = x-axis
@@ -57,7 +57,7 @@ class World {
 
     //illgalpolys = when the polygon that forms the building and the road
     const illegalPolys = [
-      ...this.buildings,
+      ...this.buildings.map((b)=> b.base),
       ...this.envelopes.map((e) => e.poly),
     ];
 
@@ -183,7 +183,7 @@ class World {
         }
       }
     }
-    return bases;
+    return bases.map((b)=> new Building(b));
   }
   draw(ctx, viewPoint) {
     for (const env of this.envelopes) {
@@ -199,7 +199,7 @@ class World {
       tree.draw(ctx, viewPoint);
     }
     for (const bld of this.buildings) {
-      bld.draw(ctx);
+      bld.draw(ctx, viewPoint);
     }
   }
 }
