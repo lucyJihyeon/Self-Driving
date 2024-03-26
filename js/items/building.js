@@ -63,7 +63,7 @@ class Building {
     roofPolys.sort(
       (a, b) => b.distanceToPoint(viewPoint) - a.distanceToPoint(viewPoint)
     );
-    this.base.draw(ctx, { fill: "white", stroke: "#AAA" });
+    this.base.draw(ctx, { fill: "white", stroke: "rgba(0,0,0,0.2)", lineWidth: 20 });
     for (const side of sides) {
       side.draw(ctx, { fill: "white", stroke: "#AAA" });
     }
