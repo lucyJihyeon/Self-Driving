@@ -130,12 +130,13 @@ static union(polys) {
   //draw the road with some defualt style values
   draw(
     ctx,
-    { stroke = "blue", lineWidth = 2, fill = "rgba(0,0,255,0.3)" } = {}
+    { stroke = "blue", lineWidth = 2, fill = "rgba(0,0,255,0.3)" , join = "meter"} = {}
   ) {
     ctx.beginPath();
     ctx.fillStyle = fill;
     ctx.strokeStyle = stroke;
     ctx.lineWidth = lineWidth;
+    ctx.lineJoin = join;
     //starting point, the first item in the points array
     ctx.moveTo(this.points[0].x, this.points[0].y);
     //from the second point to the end of the point, draw a line.
