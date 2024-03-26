@@ -4,6 +4,7 @@ class Tree {
     //size of the base
     this.size = size;
     this.heightCoef = heightCoef;
+    this.base = this.#generateLevel(center, size);
   }
 
   //priviate method to generate level to the tree
