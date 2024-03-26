@@ -57,7 +57,7 @@ class World {
 
     //illgalpolys = when the polygon that forms the building and the road
     const illegalPolys = [
-      ...this.buildings.map((b)=> b.base),
+      ...this.buildings.map((b) => b.base),
       ...this.envelopes.map((e) => e.poly),
     ];
 
@@ -94,14 +94,14 @@ class World {
           }
         }
       }
-      //if the tree is too close to something, don't keep it 
+      //if the tree is too close to something, don't keep it
       if (keep) {
         let closeToSomething = false;
-        for ( const poly of illegalPolys)   {
-            if(poly.distanceToPoint(p) < this.treeSize * 2) {
-                closeToSomething = true;
-                break;
-            }
+        for (const poly of illegalPolys) {
+          if (poly.distanceToPoint(p) < this.treeSize * 2) {
+            closeToSomething = true;
+            break;
+          }
         }
         keep = closeToSomething;
       }
@@ -176,14 +176,17 @@ class World {
     for (let i = 0; i < bases.length - 1; i++) {
       for (let j = i + 1; j < bases.length; j++) {
         //if they do intersect, remove the building
-        //also, if the building is too close to the next building, remove the building 
-        if (bases[i].intersectPoly(bases[j]) || bases[i].distanceToPoly(bases[j]) < this.spacing - eps) {
+        //also, if the building is too close to the next building, remove the building
+        if (
+          bases[i].intersectPoly(bases[j]) ||
+          bases[i].distanceToPoly(bases[j]) < this.spacing - eps
+        ) {
           bases.splice(j, 1);
           j--;
         }
       }
     }
-    return bases.map((b)=> new Building(b));
+    return bases.map((b) => new Building(b));
   }
   draw(ctx, viewPoint) {
     for (const env of this.envelopes) {
@@ -195,11 +198,15 @@ class World {
     for (const seg of this.roadBorders) {
       seg.draw(ctx, { color: "white", width: 4 });
     }
-    for (const tree of this.trees) {
-      tree.draw(ctx, viewPoint);
-    }
-    for (const bld of this.buildings) {
-      bld.draw(ctx, viewPoint);
+    //combining buildings and trees
+    const items = [...this.buildings, ...this.trees];
+    //sorting the items array based on the distance between the base of the item and the viewpoint 
+    //closer, the later it is generated. 
+    items.sort(
+      (a, b) => b.base.distanceToPoint(viewPoint) - a.base.distanceToPoint(viewPoint)
+    );
+    for (const item of items) {
+      item.draw(ctx, viewPoint);
     }
   }
 }
