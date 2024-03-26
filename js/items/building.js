@@ -29,7 +29,7 @@ class Building {
     }
 
     //sorting the sides array based on the distance of each side wall's midpoint to the viewPoint 
-    //closest to one will be the last one to draw 
+    //closest one to the viewpoint will be the last one to draw 
     sides.sort(
       (a, b) => b.distanceToPoint(viewPoint) - a.distanceToPoint(viewPoint)
     );
@@ -58,6 +58,11 @@ class Building {
         topMidpoints[0], topMidpoints[1]
       ])
     ]
+    //sorting the roofPolys array based on the distance of each side roof's midpoint to the viewPoint 
+    //closest one to the viewpoint will be the last one to draw 
+    roofPolys.sort(
+      (a, b) => b.distanceToPoint(viewPoint) - a.distanceToPoint(viewPoint)
+    );
     this.base.draw(ctx, { fill: "white", stroke: "#AAA" });
     for (const side of sides) {
       side.draw(ctx, { fill: "white", stroke: "#AAA" });
