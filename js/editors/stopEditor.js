@@ -52,7 +52,14 @@ class StopEditor {
             const proj = seg.projectPoint(this.mouse);
             //check if the projection's offset is within the segment [0,1]
             if(proj.offset >= 0 && proj.offset <= 1) {
-                this.intent = proj.point;
+                //if it is, create a new stop object representing a stop at the projected point. 
+                this.intent = new Stop(
+                    //center of the stop, direction vector of the segment, with of the road, and height of the stop (half of the road width)
+                    proj.point,
+                    seg.directionVector(),
+                    world.roadWidth,
+                    world.roadWidth / 2
+                )
             } else {
                 this.intent = null;
             }
