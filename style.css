@@ -9,3 +9,12 @@ h1{
 #myCanvas   {
     background-color: greenyellow;
 }
+button {
+    background-color: white;
+    font-size: 20px;
+    padding: 5px 7px 7px 5px;
+    border-radius: 5px;
+    border: none;
+    text-shadow: 1px 1px black;
+    cursor: pointer;
+}
