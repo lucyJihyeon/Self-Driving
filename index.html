@@ -17,8 +17,9 @@
       <button id="stopBtn" onclick="setMode('stop')">🛑</button>
     </div>
     <script src="js/world.js"></script>
-    <script src="js/graphEditor.js"></script>
     <script src="js/viewport.js"></script>
+    <script src="js/editors/graphEditor.js"></script>
+    <script src="js/editors/stopEditor.js"></script>
     <script src="js/items/tree.js"></script>
     <script src="js/items/building.js"></script>
     <script src="js/math/utils.js"></script>
@@ -29,7 +30,6 @@
     <script src="js/primitives/envelope.js"></script>
 
     <script>
-      
       myCanvas.width = 600;
       myCanvas.height = 600;
 
@@ -38,28 +38,29 @@
       const graphString = localStorage.getItem("graph");
       //if there is a graph in local storage, parse the graph into an object.
       const graphInfo = graphString ? JSON.parse(graphString) : null;
-      const graph = graphInfo
-        ? Graph.load(graphInfo)
-        : new Graph();
-      //instantiate a new world 
+      const graph = graphInfo ? Graph.load(graphInfo) : new Graph();
+      //instantiate a new world
       const world = new World(graph);
       const viewport = new Viewport(myCanvas);
       const graphEditor = new GraphEditor(viewport, graph);
+      const stopEditor = new StopEditor(viewport, world);
+
       let oldGraphHash = graph.hash();
-      //setup the mode to graph to be able to use the graphEditor 
+      //setup the mode to graph to be able to use the graphEditor
       setMode("graph");
       animate();
-      //Function to use a mouse to add point/segment to the canvas 
-      function animate()    {
+      //Function to use a mouse to add point/segment to the canvas
+      function animate() {
         viewport.reset();
-        if ( graph.hash() != oldGraphHash)  {
+        if (graph.hash() != oldGraphHash) {
           world.generate();
           oldGraphHash = graph.hash();
         }
-        const viewPoint = scale(viewport.getOffset(), - 1);
+        const viewPoint = scale(viewport.getOffset(), -1);
         world.draw(ctx, viewPoint);
         ctx.globalAlpha = 0.3;
         graphEditor.display();
+        stopEditor.display();
         //Recursive call that the browser will recall the function 60 times / s
         requestAnimationFrame(animate);
       }
@@ -71,31 +72,32 @@
       function save() {
         localStorage.setItem("graph", JSON.stringify(graph));
       }
-      //function to set up the mode 
-      function setMode(mode)  {
-        //disabling the buttons first 
+      //function to set up the mode
+      function setMode(mode) {
+        //disabling the buttons first
         dissableEditor();
-        switch(mode)  {
-          //enabling the buttons depending on the mode 
-          case "graph" :
-            graphBtn.style.backgroundColor = "white",
-            graphBtn.style.filter="";
-            //enabling the graphEditor 
+        switch (mode) {
+          //enabling the buttons depending on the mode
+          case "graph":
+            (graphBtn.style.backgroundColor = "white"),
+              (graphBtn.style.filter = "");
+            //enabling the graphEditor
             graphEditor.enable();
             break;
-          case "stop" :
-            stopBtn.style.backgroundColor = "white",
-            stopBtn.style.filter="";
+          case "stop":
+            (stopBtn.style.backgroundColor = "white"),
+              (stopBtn.style.filter = "");
+            stopEditor.enable();
             break;
         }
       }
-      //dissalbing the buttons and the graphEditor 
+      //dissalbing the buttons and the graphEditor
       function dissableEditor() {
         graphBtn.style.backgroundColor = "gray";
         graphBtn.style.filter = "grayscale(100%)";
-        graphEditor.disable();
         stopBtn.style.backgroundColor = "gray";
-        stopBtn.style.backgroundColor = "grayscale(100%)";
+        stopBtn.style.filter = "grayscale(100%)";
+        stopEditor.disable();
       }
     </script>
   </body>

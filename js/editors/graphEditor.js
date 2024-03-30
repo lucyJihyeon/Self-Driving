@@ -19,6 +19,8 @@ class GraphEditor {
   //function to disalbe the event listeners to be able to draw the graph 
   disable() {
     this.#removeEventListeners();
+    this.selected = false;
+    this.hovered = false;
   }
 
   #addEventListeners() {
