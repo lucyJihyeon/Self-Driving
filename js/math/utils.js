@@ -101,3 +101,17 @@ function getRandomColor() {
   const hue = 290 + Math.random() * 260;
   return "hsl(" + hue + ", 100%, 60%)";
 }
+
+//function to calculate the apparent 3D position of a point in the canvas based on the POV 
+function getFake3dPoint(point, viewPoint, height) {
+  //calculate a direction vector pointing from the viewPoint towards the point 
+  const dir = normalize(subtract(point, viewPoint));
+  //calculates the Euclidean distance between the point and the viewPoint 
+  const dist = distance(point, viewPoint);
+  //calculates an angle based on the distance between the point and the viewPoint.
+  //normalized by dividing by (Math.PI / 2) to keep it within the range of [-1,1]
+  const scaler = Math.atan(dist / 300) / (Math.PI / 2);
+  //scale(dir, height * scaler): This scales the direction vector dir by the calculated scaler and height
+  // returns a new point that is adjusted in 3D space 
+  return add(point, scale(dir, height * scaler));
+}
