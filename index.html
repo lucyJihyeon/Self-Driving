@@ -46,6 +46,8 @@
       const viewport = new Viewport(myCanvas);
       const graphEditor = new GraphEditor(viewport, graph);
       let oldGraphHash = graph.hash();
+      //setup the mode to graph to be able to use the graphEditor 
+      setMode("graph");
       animate();
       //Function to use a mouse to add point/segment to the canvas 
       function animate()    {
@@ -68,6 +70,32 @@
       //save the current graph
       function save() {
         localStorage.setItem("graph", JSON.stringify(graph));
+      }
+      //function to set up the mode 
+      function setMode(mode)  {
+        //disabling the buttons first 
+        dissableEditor();
+        switch(mode)  {
+          //enabling the buttons depending on the mode 
+          case "graph" :
+            graphBtn.style.backgroundColor = "white",
+            graphBtn.style.filter="";
+            //enabling the graphEditor 
+            graphEditor.enable();
+            break;
+          case "stop" :
+            stopBtn.style.backgroundColor = "white",
+            stopBtn.style.filter="";
+            break;
+        }
+      }
+      //dissalbing the buttons and the graphEditor 
+      function dissableEditor() {
+        graphBtn.style.backgroundColor = "gray";
+        graphBtn.style.filter = "grayscale(100%)";
+        graphEditor.disable();
+        stopBtn.style.backgroundColor = "gray";
+        stopBtn.style.backgroundColor = "grayscale(100%)";
       }
     </script>
   </body>

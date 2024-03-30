@@ -10,20 +10,40 @@ class GraphEditor {
     this.hovered = null;
     this.dragging = false;
     this.mouse = null;
+  }
+  //function to enable the event listeners to be able to draw the graph 
+  enable()  {
     //Create a private event listener
     this.#addEventListeners();
   }
+  //function to disalbe the event listeners to be able to draw the graph 
+  disable() {
+    this.#removeEventListeners();
+  }
 
   #addEventListeners() {
+    this.boundMouseDown = this.#handleMouseDown.bind(this);
+    this.boundMouseMove = this.#handlerMouseMove.bind(this);
+    this.boundMouseUp = () => (this.dragging = false);
+    this.boundContextMenu = (evt) => evt.preventDefault()
     //added an event listener inside of the canvas when the mouse is being pressed down
     //creates a new function where 'this' inside #handleMouseDown refers to the GraphEditor's this
-    this.canvas.addEventListener("mousedown", this.#handleMouseDown.bind(this));
+    this.canvas.addEventListener("mousedown", this.boundMouseDown);
     //add an eventlistener when the mouse moves
-    this.canvas.addEventListener("mousemove", this.#handlerMouseMove.bind(this));
+    this.canvas.addEventListener("mousemove",this.boundMouseMove);
+     //When the mouse is not being pressed down, the point can't drag.
+     this.canvas.addEventListener("mouseup", this.boundMouseUp);
     //prevent the menu to appear
-    this.canvas.addEventListener("contextmenu", (evt) => evt.preventDefault());
-    //When the mouse is not being pressed down, the point can't drag.
-    this.canvas.addEventListener("mouseup", () => (this.dragging = false));
+    this.canvas.addEventListener("contextmenu", this.boundContextMenu);
+   
+  }
+
+  //removing event listeners
+  #removeEventListeners() {
+    this.canvas.removeEventListener("mousedown", this.boundMouseDown);
+    this.canvas.removeEventListener("mousemove", this.boundMouseMove);
+    this.canvas.removeEventListener("mouseup",this.boundMouseUp);
+    this.canvas.removeEventListener("contextmenu", this.boundContextMenu);
   }
   #handleMouseDown(evt) {
     if (evt.button == 2) {
