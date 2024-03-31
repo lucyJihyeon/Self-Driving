@@ -13,12 +13,12 @@ class Stop {
         );
         //wrap around the support segment to create a polygon 
         this.poly = new Envelope(this.support, width, 0).poly;
-
-        
+        //border = 3rd item of the poly's segments which is the top side of the polygon
+        this.border = this.poly.segments[2];
     }
 
     draw(ctx)   {
-        this.poly.draw(ctx);
+        this.border.draw(ctx, { width: 5, color: "white"});
         ctx.save();
         ctx.translate(this.center.x, this.center.y);
         ctx.rotate(angle(this.directionVector) - Math.PI / 2);
