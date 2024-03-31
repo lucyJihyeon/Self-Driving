@@ -20,7 +20,8 @@ class World {
     this.roadBorders = [];
     this.buildings = [];
     this.trees = [];
-
+    this.laneGuides = [];
+    this.markings = [];
     this.generate();
   }
   //for each segments in the graph, make a envelope around them, then store them in the envelopes array
@@ -38,6 +39,26 @@ class World {
     //generate building around the road
     this.buildings = this.#generateBuildings();
     this.trees = this.#generateTrees();
+
+    this.laneGuides.length = 0;
+    this.laneGuides.push(...this.#generateLaneGuides());
+  }
+
+  //private method to generate lange guide
+  #generateLaneGuides() {
+    //lange guides are polygon shaped. 
+    const tmpEnvelopes = [];
+    for (const seg of this.graph.segments) {
+      tmpEnvelopes.push(
+        new Envelope(
+          seg,
+          this.roadWidth / 2,
+          this.roadRoundness
+        )
+      );
+    }
+    const segments = Polygon.union(tmpEnvelopes.map((e) => e.poly))
+    return segments
   }
   //private method to create trees
   #generateTrees() {
@@ -192,6 +213,9 @@ class World {
     for (const env of this.envelopes) {
       env.draw(ctx, { fill: "#BBB", stroke: "#BBB", lineWidth: 15 });
     }
+    for (const marking of this.markings)  {
+      marking.draw(ctx);
+    }
     for (const seg of this.graph.segments) {
       seg.draw(ctx, { color: "white", width: 4, dash: [10, 10] });
     }
@@ -208,5 +232,10 @@ class World {
     for (const item of items) {
       item.draw(ctx, viewPoint);
     }
+    // for (const seg of this.laneGuides)  {
+    //   seg.draw(ctx, {color: "red "});
+    // }
+
+
   }
 }

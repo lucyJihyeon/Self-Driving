@@ -16,6 +16,21 @@ function getNearestPoint(loc, points, threshold = Number.MAX_SAFE_INTEGER) {
   }
   return nearest;
 }
+function getNearestSegment(loc, segments, threshold = Number.MAX_SAFE_INTEGER) {
+  //min distance that will be selected when hovered
+  let minDist = Number.MAX_SAFE_INTEGER;
+  let nearest = null;
+  //loop through all of the segment in the points array
+  for (const seg of segments) {
+    const dist = seg.distanceToPoint(loc);
+    //if the distance is less than the min distance and the threshold, return the point.
+    if (dist < minDist && dist < threshold) {
+      minDist = dist;
+      nearest = seg;
+    }
+  }
+  return nearest;
+}
 //function to calculate the distance of the two points
 function distance(p1, p2) {
   //using a pythagorean theory
