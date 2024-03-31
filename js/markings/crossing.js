@@ -14,7 +14,8 @@ class Crossing {
         //wrap around the support segment to create a polygon 
         this.poly = new Envelope(this.support, width, 0).poly;
         //border = 3rd item of the poly's segments which is the top side of the polygon
-        this.border = this.poly.segments[2];
+        //first item = bottom side of the polygon so that the car is aware of both of the borders 
+        this.border = [this.poly.segments[0], this.poly.segments[2]];
     }
 
     draw(ctx)   {
@@ -28,5 +29,6 @@ class Crossing {
             color: "white",
             dash: [11,11]
         });
+        
     }
 }
