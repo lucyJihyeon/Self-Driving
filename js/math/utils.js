@@ -63,7 +63,7 @@ function normalize(p) {
 function magnitude(p) {
   return Math.hypot(p.x, p.y);
 }
-//Functino to calculate the new position of a point after applying a translation (movement) in a specific direction and distance.
+//Function to calculate the new position of a point after applying a translation (movement) in a specific direction and distance.
 function translate(loc, angle, offset) {
   return new Point(
     //angle: The angle at which the translation will occur, measured in radians from the positive x-axis using cosine.
@@ -71,6 +71,11 @@ function translate(loc, angle, offset) {
     //offset: The distance by which the point will be translated in the specified direction.
     loc.y + Math.sin(angle) * offset
   );
+}
+
+//Function to take a point and return the perpendicular point to it. (flip across the y-axis)
+function perpendicular(p) {
+  return new Point(-p.y, p.x);
 }
 //returns the arctangent of the quotient of its arguments, as a numeric value between PI and -PI radians.
 //represents the counterclockwise angle in radians between the positive X axis and the point (x, y).
