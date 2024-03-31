@@ -14,9 +14,21 @@ class Stop {
         //wrap around the support segment to create a polygon 
         this.poly = new Envelope(this.support, width, 0).poly;
 
+        
     }
 
     draw(ctx)   {
         this.poly.draw(ctx);
+        ctx.save();
+        ctx.translate(this.center.x, this.center.y);
+        ctx.rotate(angle(this.directionVector) - Math.PI / 2);
+        ctx.scale(1,3);
+        ctx.beginPath();
+        ctx.textBaseline = "middle";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "white";
+        ctx.fillText("STOP", 0, 1);
+        ctx.font = "bold " + this.height * 0.3 + "px Arial"
+        ctx.restore();
     }
 }

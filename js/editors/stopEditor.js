@@ -46,7 +46,7 @@ class StopEditor {
     //find the nearest segment around the mouse 
     const seg = getNearestSegment(
         this.mouse, 
-        this.world.graph.segments,
+        this.world.laneGuides,
          10 * this.viewport.zoom);
         if (seg)    {
             const proj = seg.projectPoint(this.mouse);
@@ -57,7 +57,7 @@ class StopEditor {
                     //center of the stop, direction vector of the segment, with of the road, and height of the stop (half of the road width)
                     proj.point,
                     seg.directionVector(),
-                    world.roadWidth,
+                    world.roadWidth / 2,
                     world.roadWidth / 2
                 )
             } else {
