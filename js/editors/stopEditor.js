@@ -7,6 +7,8 @@ class StopEditor {
     this.ctx = this.canvas.getContext("2d");
     this.mouse = null;
     this.intent = null;
+
+    this.markings = world.markings;
   }
   //function to enable the event listeners to be able to draw the graph
   enable() {
@@ -68,7 +70,13 @@ class StopEditor {
         }
   }
   #handleMouseDown(evt) {
-
+    //left click
+    if (evt.button == 0)  {
+      if(this.intent) {
+        this.markings.push(this.intent);
+        this.intent = null;
+      }
+    }
   }
   display() {
     if(this.intent) {

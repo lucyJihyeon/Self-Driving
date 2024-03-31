@@ -21,7 +21,7 @@ class World {
     this.buildings = [];
     this.trees = [];
     this.laneGuides = [];
-
+    this.markings = [];
     this.generate();
   }
   //for each segments in the graph, make a envelope around them, then store them in the envelopes array
@@ -213,6 +213,9 @@ class World {
     for (const env of this.envelopes) {
       env.draw(ctx, { fill: "#BBB", stroke: "#BBB", lineWidth: 15 });
     }
+    for (const marking of this.markings)  {
+      marking.draw(ctx);
+    }
     for (const seg of this.graph.segments) {
       seg.draw(ctx, { color: "white", width: 4, dash: [10, 10] });
     }
@@ -232,6 +235,7 @@ class World {
     // for (const seg of this.laneGuides)  {
     //   seg.draw(ctx, {color: "red "});
     // }
-    
+
+
   }
 }
