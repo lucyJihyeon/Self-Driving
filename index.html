@@ -48,10 +48,11 @@
       //instantiate a new world
       const world = new World(graph);
       const viewport = new Viewport(myCanvas);
-      const graphEditor = new GraphEditor(viewport, graph);
-      const stopEditor = new StopEditor(viewport, world);
-      const crossingEditor = new CrossingEditor(viewport, world);
-
+      const tools = {
+        graph: { button: graphBtn, editor: new GraphEditor(viewport, graph) },
+        stop: { button: stopBtn, editor: new StopEditor(viewport, world) },
+        crossing: { button: crossingBtn, editor: new CrossingEditor(viewport, world) },
+      };
 
       let oldGraphHash = graph.hash();
       //setup the mode to graph to be able to use the graphEditor
@@ -67,15 +68,17 @@
         const viewPoint = scale(viewport.getOffset(), -1);
         world.draw(ctx, viewPoint);
         ctx.globalAlpha = 0.3;
-        graphEditor.display();
-        stopEditor.display();
-        crossingEditor.display();
+
+        for (const tool of Object.values(tools)) {
+          tool.editor.display();
+        }
+
         //Recursive call that the browser will recall the function 60 times / s
         requestAnimationFrame(animate);
       }
       //when a dispose button is clicked, call dispose method in graphEditor class
       function dispose() {
-        graphEditor.dispose();
+        tools["graph"].editor.dispose();
         world.markings.length = 0;
       }
       //save the current graph
@@ -86,38 +89,18 @@
       function setMode(mode) {
         //disabling the buttons first
         dissableEditor();
-        switch (mode) {
-          //enabling the buttons depending on the mode
-          case "graph":
-            (graphBtn.style.backgroundColor = "white"),
-              (graphBtn.style.filter = "");
-            //enabling the graphEditor
-            graphEditor.enable();
-            break;
-          case "stop":
-            (stopBtn.style.backgroundColor = "white"),
-              (stopBtn.style.filter = "");
-            stopEditor.enable();
-            break;
-          case "crossing":
-            (crossingBtn.style.backgroundColor = "white"),
-              (crossingBtn.style.filter = "");
-            crossingEditor.enable();
-            break;
-        }
+        tools[mode].button.style.backgroundColor = "white";
+        tools[mode].button.style.filter = "";
+        tools[mode].editor.enable();
+    
       }
       //dissalbing the buttons and the graphEditor
       function dissableEditor() {
-        graphBtn.style.backgroundColor = "gray";
-        graphBtn.style.filter = "grayscale(100%)";
-        graphEditor.disable();
-        stopBtn.style.backgroundColor = "gray";
-        stopBtn.style.filter = "grayscale(100%)";
-        stopEditor.disable();
-        crossingBtn.style.backgroundColor = "gray";
-        crossingBtn.style.filter = "grayscale(100%)";
-        crossingEditor.disable();
-
+        for (const tool of Object.values(tools)) {
+          tool.button.style.backgroundColor = "gray";
+          tool.button.style.filter = "grayscale(100%)";
+          tool.editor.disable();
+        }
       }
     </script>
   </body>
